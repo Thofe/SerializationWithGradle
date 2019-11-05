@@ -40,3 +40,7 @@ screenshot*.png
 
 # logs
 *.log
+
+# Data Files
+*.txt
+*.csv
