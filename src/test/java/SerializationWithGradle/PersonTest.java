@@ -54,13 +54,13 @@ public class PersonTest {
     @Test 
     public void SerializationAndDeserialization() throws Exception{
         Person initialPerson = new Person("First", "Last", "1", "2", "3");
-        FileOutputStream fileOutputStream = new FileOutputStream("data.txt");
+        FileOutputStream fileOutputStream = new FileOutputStream("data.bin");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(initialPerson);
         objectOutputStream.flush();
         objectOutputStream.close();
         
-        FileInputStream fileInputStream = new FileInputStream("data.txt");
+        FileInputStream fileInputStream = new FileInputStream("data.bin");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         Person replicaPerson = (Person) objectInputStream.readObject();
         objectInputStream.close();

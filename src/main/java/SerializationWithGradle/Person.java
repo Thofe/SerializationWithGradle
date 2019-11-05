@@ -7,7 +7,6 @@ package SerializationWithGradle;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,8 +14,13 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
 
-
+//Look into how to write and read a test file when specifying the chracter set (NIO instead of IO)
 //Hash code comparison override 
+//Change binary file save type
+//Write a serialzer outside of person
+//Find Bugs
+//Look at XML Serialization (can be part of person or outside)
+//Fork clone and build topsoil and read it 
 /**
  *
  * @author Bmitr
@@ -98,10 +102,9 @@ public class Person implements Comparable<Person>, Serializable{
      */
     public static void writeObject(ObjectOutputStream objectOutputStream, Person person)throws IOException{
         objectOutputStream.defaultWriteObject();
-        objectOutputStream.writeObject(person.getFirstName() + ", " + person.getLastName() + ", " + person.getBirthMonth() + ", " + person.getBirthDay() + ", " + person.getBirthYear());
-
+        objectOutputStream.writeObject(person);
     }
-    
+   
     /**
      * Deserializes a person
      * @param ois the input stream for the data
