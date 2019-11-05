@@ -44,3 +44,4 @@ screenshot*.png
 # Data Files
 *.txt
 *.csv
+*.bin
