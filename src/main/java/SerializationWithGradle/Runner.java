@@ -53,6 +53,8 @@ public class Runner {
         
         
         System.out.println("CSV TEST CONCLUSION");
+       
+        
         System.out.println();
         System.out.println();
         
@@ -99,6 +101,8 @@ public class Runner {
         }catch (IOException ex){
             System.out.println("Error in serialization");
         }
+        
+        
         System.out.println("BINARY TEST CONCLUSION");
     }
 }

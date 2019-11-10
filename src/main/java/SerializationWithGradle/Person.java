@@ -16,11 +16,9 @@ import java.io.ObjectOutputStream;
 
 //Look into how to write and read a test file when specifying the chracter set (NIO instead of IO)
 //Hash code comparison override 
-//Change binary file save type
-//Write a serialzer outside of person
 //Find Bugs
 //Look at XML Serialization (can be part of person or outside)
-//Fork clone and build topsoil and read it 
+
 /**
  *
  * @author Bmitr
@@ -105,6 +103,7 @@ public class Person implements Comparable<Person>, Serializable{
         objectOutputStream.writeObject(person);
     }
    
+    
     /**
      * Deserializes a person
      * @param ois the input stream for the data
