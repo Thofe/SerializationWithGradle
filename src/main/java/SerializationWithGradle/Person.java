@@ -4,15 +4,22 @@
  * and open the template in the editor.
  */
 package SerializationWithGradle;
-
+//use nio instead of io
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 //Look into how to write and read a test file when specifying the chracter set (NIO instead of IO)
 //Hash code comparison override 
@@ -56,6 +63,7 @@ public class Person implements Comparable<Person>, Serializable{
         this.birthYear = birthYear;
     }
     
+    
     /**
      * Serializes a person to a given file
      * 
@@ -91,29 +99,37 @@ public class Person implements Comparable<Person>, Serializable{
         return person;
     }
     
+    //Change to take in a file name and a person
+    //Remove the reliance on oos
     /**
      * Serializes a person in binary
      * 
-     * @param oos the output stream for the data
+     * @param fileName the file to which the person will be serialized 
      * @param person the person to be serialized
      * @throws IOException 
      */
-    public static void writeObject(ObjectOutputStream objectOutputStream, Person person)throws IOException{
-        objectOutputStream.defaultWriteObject();
-        objectOutputStream.writeObject(person);
+    public static void serializeToBinary(String fileName, Person person)throws IOException{
+        OutputStream out = new FileOutputStream(fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(out);
+        oos.writeObject(person);
+        oos.close();
+        out.close();
     }
    
     
     /**
      * Deserializes a person
-     * @param ois the input stream for the data
+     * 
+     * @param fileName the file the person will be deserialized from 
      * @return a person with the data from a given file
      * @throws ClassNotFoundException
      * @throws IOException 
      */
-    public static Person readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
+    public static Person deserializeFromBinary(String fileName) throws ClassNotFoundException, IOException {
+        InputStream in = new FileInputStream(fileName);
+        ObjectInputStream ois = new ObjectInputStream(in);
         Person person = (Person) ois.readObject();
+        
         return person;
     }
     

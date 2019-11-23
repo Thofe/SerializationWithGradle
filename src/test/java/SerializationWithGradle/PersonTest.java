@@ -52,20 +52,24 @@ public class PersonTest {
     }
 
     @Test 
-    public void SerializationAndDeserialization() throws Exception{
+    public void binarySerializationAndDeserialization() throws Exception{
         Person initialPerson = new Person("First", "Last", "1", "2", "3");
-        FileOutputStream fileOutputStream = new FileOutputStream("data.bin");
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(initialPerson);
-        objectOutputStream.flush();
-        objectOutputStream.close();
+        Person.serializeToBinary("data.bin", initialPerson);
         
-        FileInputStream fileInputStream = new FileInputStream("data.bin");
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        Person replicaPerson = (Person) objectInputStream.readObject();
-        objectInputStream.close();
+        Person replicaPerson = Person.deserializeFromBinary("data.bin");
         
         assertEquals(initialPerson, replicaPerson);
+    }
+    
+    @Test 
+    public void binarySerializationAndDeserializationWithSerializerClass() throws Exception{
+        Person initialPerson = new Person("First", "Last", "1", "2", "3");
+        Serializer.serializeToBinary("data.bin", initialPerson);
+        
+        Person replicaPerson = (Person) Serializer.deserializeFromBinary("data.bin");
+        
+        assertEquals(initialPerson, replicaPerson);
+
     }
 //    /**
 //     * Test of serializeToCSV method, of class Person.

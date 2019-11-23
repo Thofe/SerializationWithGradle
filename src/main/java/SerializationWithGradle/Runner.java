@@ -63,19 +63,12 @@ public class Runner {
         //Attempts to serialize a person to a given txt file
         try{
             //Serializes a person to a given txt file
-            FileOutputStream fileOutputStream = new FileOutputStream("data.bin");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(initialPerson);
-            objectOutputStream.flush();
-            objectOutputStream.close();
+            Person.serializeToBinary("data.bin", initialPerson);
             
             //Attempts to deserialize a person from a given txt file
             try{
                 // Deserializes a person from the data.txt file
-                FileInputStream fileInputStream = new FileInputStream("data.bin");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                Person replicaPerson = (Person) objectInputStream.readObject();
-                objectInputStream.close();
+                Person replicaPerson = Person.deserializeFromBinary("data.bin");
                 
                 // Prints out the persons info
                 System.out.println("Starting person's state:");
