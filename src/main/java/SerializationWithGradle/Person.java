@@ -17,9 +17,6 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 //Look into how to write and read a test file when specifying the chracter set (NIO instead of IO)
 //Hash code comparison override 
@@ -67,7 +64,8 @@ public class Person implements Comparable<Person>, Serializable{
     /**
      * Serializes a person to a given file
      * 
-     * @param file the file to which the data will be saved 
+     * @param fileName the file to which the data will be saved 
+     * @param person the person to be serialized 
      * @throws IOException 
      */
     public static void serializeToCSV(String fileName, Person person) throws IOException{
@@ -80,12 +78,12 @@ public class Person implements Comparable<Person>, Serializable{
     /**
      * Deserializes a person from a given file
      * 
-     * @param file the file to pull the data from
+     * @param fileName the file from which the person will be deserialized
      * @throws IOException 
      */
-    public static Person deserializeFromCSV(String file) throws IOException{
+    public static Person deserializeFromCSV(String fileName) throws IOException{
         Person person = new Person();
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
         br.readLine(); //Reads the first line without recording it 
         String state = br.readLine();
          

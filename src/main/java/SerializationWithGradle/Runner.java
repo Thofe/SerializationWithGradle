@@ -4,11 +4,7 @@
  * and open the template in the editor.
  */
 package SerializationWithGradle;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException; 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 /**
  *
  * @author Bmitr
@@ -86,9 +82,7 @@ public class Runner {
                 System.out.println("Are these 2 people's states equal?");
                 System.out.println(replicaPerson.equals(initialPerson));
                 
-            }catch(IOException ex){
-                System.out.println("Error in deserialization");
-            }catch(ClassNotFoundException e){
+            }catch(IOException | ClassNotFoundException ex){
                 System.out.println("Error in deserialization");
             }
         }catch (IOException ex){

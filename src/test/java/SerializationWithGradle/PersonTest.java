@@ -5,10 +5,6 @@
  */
 package SerializationWithGradle;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
