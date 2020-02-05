@@ -20,7 +20,9 @@ import java.io.OutputStream;
 
 //Look into how to write and read a test file when specifying the chracter set (NIO instead of IO)
 //Hash code comparison override 
-//Find Bugs
+                //What exactly do you want me to override? I understand that the hashcode will return a var as a hash value however I am unsure as to what value needs to be returned as a hash
+//Find Bugs?download netbeans 8.2
+// install gradle 4.9 (not most recent)
 //Look at XML Serialization (can be part of person or outside)
 
 /**
