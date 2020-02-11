@@ -5,18 +5,17 @@
  */
 package SerializationWithGradle;
 //use nio instead of io
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 //Look into how to write and read a test file when specifying the chracter set (NIO instead of IO)
 //Hash code comparison override 
@@ -71,32 +70,60 @@ public class Person implements Comparable<Person>, Serializable{
      * @throws IOException 
      */
     public static void serializeToCSV(String fileName, Person person) throws IOException{
-        FileWriter fw = new FileWriter(new File(fileName));
-        fw.write("firstName, lastName, birthMonth, birthDay, birthYear" + System.getProperty( "line.separator" ));  
-        fw.write(person.getFirstName() + ", " + person.getLastName() + ", " + person.getBirthMonth() + ", " + person.getBirthDay() + ", " + person.getBirthYear());
-        fw.close();  
+//        FileWriter fw = new FileWriter(new File(fileName));
+//        fw.write("firstName, lastName, birthMonth, birthDay, birthYear" + System.getProperty( "line.separator" ));  
+//        fw.write(person.getFirstName() + ", " + person.getLastName() + ", " + person.getBirthMonth() + ", " + person.getBirthDay() + ", " + person.getBirthYear());
+//        fw.close();  
+
+        Path file = Paths.get(fileName);
+        
+        StringBuilder data = new StringBuilder();
+        data.append("firstName, lastName, birthMonth, birthDay, birthYear").append(System.getProperty( "line.separator"));
+        data.append(person.getFirstName()).append(", ").append(person.getLastName()).append(", ").append(person.getBirthMonth()).append(", ").append(person.getBirthDay()).append(", ").append(person.getBirthYear());
+        
+        String output = data.toString();
+        Files.write(file, output.getBytes());  
     }
-  
+    
     /**
      * Deserializes a person from a given file
      * 
      * @param fileName the file from which the person will be deserialized
+     * @return a replica of the person whose state is saved in the given CSV
      * @throws IOException 
      */
     public static Person deserializeFromCSV(String fileName) throws IOException{
-        Person person = new Person();
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        br.readLine(); //Reads the first line without recording it 
-        String state = br.readLine();
-         
+//        Person person = new Person();
+//        BufferedReader br = new BufferedReader(new FileReader(fileName));
+//        br.readLine(); //Reads the first line without recording it 
+//        String state = br.readLine();
+//         
+//        String[] stateArray = state.split(",");
+//        
+//        person.setFirstName(stateArray[0].trim());
+//        person.setLastName(stateArray[1].trim());
+//        person.setBirthMonth(stateArray[2].trim());
+//        person.setBirthDay(stateArray[3].trim());
+//        person.setBirthYear(stateArray[4].trim());
+//        return person;
+
+        Path file = Paths.get(fileName);
+        
+        List data = Files.readAllLines(file);
+        
+        String state = (String) data.get(1);
+        
         String[] stateArray = state.split(",");
         
-        person.setFirstName(stateArray[0].trim());
-        person.setLastName(stateArray[1].trim());
-        person.setBirthMonth(stateArray[2].trim());
-        person.setBirthDay(stateArray[3].trim());
-        person.setBirthYear(stateArray[4].trim());
-        return person;
+        Person replica = new Person();
+        
+        replica.setFirstName(stateArray[0].trim());
+        replica.setLastName(stateArray[1].trim());
+        replica.setBirthMonth(stateArray[2].trim());
+        replica.setBirthDay(stateArray[3].trim());
+        replica.setBirthYear(stateArray[4].trim());
+        
+        return replica;
     }
     
     //Change to take in a file name and a person
@@ -109,11 +136,21 @@ public class Person implements Comparable<Person>, Serializable{
      * @throws IOException 
      */
     public static void serializeToBinary(String fileName, Person person)throws IOException{
-        OutputStream out = new FileOutputStream(fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(out);
-        oos.writeObject(person);
-        oos.close();
-        out.close();
+//        OutputStream out = new FileOutputStream(fileName);
+//        ObjectOutputStream oos = new ObjectOutputStream(out);
+//        oos.writeObject(person);
+//        oos.close();
+//        out.close();
+
+        Path file = Paths.get(fileName);
+        
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(byteStream);
+        out.writeObject(person);
+        out.flush();
+        byte[] data = byteStream.toByteArray();
+        
+        Files.write(file, data);    
     }
    
     
@@ -126,11 +163,21 @@ public class Person implements Comparable<Person>, Serializable{
      * @throws IOException 
      */
     public static Person deserializeFromBinary(String fileName) throws ClassNotFoundException, IOException {
-        InputStream in = new FileInputStream(fileName);
-        ObjectInputStream ois = new ObjectInputStream(in);
-        Person person = (Person) ois.readObject();
+//        InputStream in = new FileInputStream(fileName);
+//        ObjectInputStream ois = new ObjectInputStream(in);
+//        Person person = (Person) ois.readObject();
+//        
+//        return person;
+
+        Path file = Paths.get(fileName);
+        byte[] data = Files.readAllBytes(file);
         
-        return person;
+        ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
+        ObjectInput input = new ObjectInputStream(byteInput);
+        
+        Person replica = (Person) input.readObject(); 
+            
+        return replica;
     }
     
     /**
