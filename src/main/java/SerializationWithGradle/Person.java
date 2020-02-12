@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package SerializationWithGradle;
-//use nio instead of io
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,9 +19,6 @@ import java.util.List;
 
 //Look into how to write and read a test file when specifying the chracter set (NIO instead of IO)
 //Hash code comparison override 
-                //What exactly do you want me to override? I understand that the hashcode will return a var as a hash value however I am unsure as to what value needs to be returned as a hash
-//Find Bugs?download netbeans 8.2
-// install gradle 4.9 (not most recent)
 //Look at XML Serialization (can be part of person or outside)
 
 /**
@@ -81,8 +78,8 @@ public class Person implements Comparable<Person>, Serializable{
         data.append("firstName, lastName, birthMonth, birthDay, birthYear").append(System.getProperty( "line.separator"));
         data.append(person.getFirstName()).append(", ").append(person.getLastName()).append(", ").append(person.getBirthMonth()).append(", ").append(person.getBirthDay()).append(", ").append(person.getBirthYear());
         
-        String output = data.toString();
-        Files.write(file, output.getBytes());  
+        //String output = data.toString();
+        Files.write(file, data.toString().getBytes());  
     }
     
     /**
